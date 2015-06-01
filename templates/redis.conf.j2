@@ -1,16 +1,6 @@
 #
 # {{ ansible_managed }}
 #
-{% for key, value in redis.settings.items() %}
-{% if value and value is sequence and value is not string %}
-{% for elt in value %}
-{{ key }} {{ elt }}
-{% endfor %}
-{% else %}
-{{ key }} {{ value }}
-{% endif %}
-{% endfor %}
-
 
 # Redis configuration file example
 
