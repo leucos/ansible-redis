@@ -1,16 +1,23 @@
-- name: Set overcommit sysctl entry
-  sysctl: >
-    name=vm.overcommit_memory
-    value=1
-    sysctl_file=/etc/sysctl.d/60-redis-overcommit.conf
+- name: Enables overcommit_memory and hugepages
+  sysctl:
+    name: {{ item }}
+    value: 1
+    sysctl_file: /etc/sysctl.d/60-redis.conf
+    reload: yes
+  with_items:
+    - vm.overcommit_memory
+    - vm.nr_hugepages
+    - vm.nr_hugepages_mempolicy
+    - vm.hugepages_treat_as_movable
+    - vm.nr_overcommit_hugepages
 
 - name: Adds Redis config
-  template: >
-    src="../templates/redis.conf.j2"
-    dest=/etc/redis/redis.conf
-    owner=root
-    group=root
-    mode=0644
-    backup=yes
+  template:
+    src: "../templates/redis.conf.j2"
+    dest: /etc/redis/redis.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
   notify:
     - Restart redis
