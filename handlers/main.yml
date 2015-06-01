@@ -1,4 +1,7 @@
----
-     - name: Restart redis
-       action: service name=redis-server state=restarted
+- name: Restart restart redis
+  action: service name=redis-server state=restarted
+  notify: Check redis
+
+- name: Check redis
+  wait_for: port={{ redis_port }}
 

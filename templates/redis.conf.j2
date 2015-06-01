@@ -143,9 +143,9 @@ databases {{ redis_databases }}
 #
 #   save ""
 
-{{ redis_save.0 }}
-{{ redis_save.1 }}
-{{ redis_save.2 }}
+save {{ redis_save.0 }}
+save {{ redis_save.1 }}
+save {{ redis_save.2 }}
 
 # By default Redis will stop accepting writes if RDB snapshots are enabled
 # (at least one save point) and the latest background save failed.
