@@ -1,8 +1,8 @@
 - name: Set overcommit sysctl entry
-    sysctl: >
-      name=vm.overcommit_memory
-      value=1
-      sysctl_file=/etc/sysctl.d/60-redis-overcommit.conf
+  sysctl: >
+    name=vm.overcommit_memory
+    value=1
+    sysctl_file=/etc/sysctl.d/60-redis-overcommit.conf
 
 - name: Adds Redis config
   template: >
