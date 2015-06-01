@@ -1,0 +1,3 @@
+- include: redis_install.yml tags=redis,redis:install
+- include: redis_configure.yml tags=redis,redis:config
+

@@ -1,0 +1,21 @@
+---
+  - name: Adds redis ppa
+    apt_repository: repo=ppa:chris-lea/redis-server
+    tags:
+      - redis:install
+      - redis
+      - install
+
+  - name: Adds redis ppa key
+    apt_key: url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
+    tags:
+      - redis:install
+      - redis
+      - install
+
+  - name: Installs Redis
+    apt: pkg=redis-server state=latest force=yes
+    tags:
+      - redis:install
+      - redis
+      - install

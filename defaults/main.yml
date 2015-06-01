@@ -1,0 +1,11 @@
+redis_daemonize: "yes"
+redis_bind: 0.0.0.0
+redis_port: 6379
+redis_databases: 16
+redis_save:
+  - 600 1
+  - 120 10
+  - 60 10000
+redis_rdbcompression: "yes"
+redis_dbfilename: dump.rdb
+redis_dir: /var/lib/redis/
