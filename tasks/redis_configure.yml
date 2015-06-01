@@ -1,6 +1,6 @@
 - name: Enables overcommit_memory and hugepages
   sysctl:
-    name: {{ item }}
+    name: "{{ item }}"
     value: 1
     sysctl_file: /etc/sysctl.d/60-redis.conf
     reload: yes
