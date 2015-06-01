@@ -7,7 +7,7 @@
       - install
 
   - name: Adds redis ppa key
-    apt_key: url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
+    apt_key: url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x136221EE520DDFAF0A905689B9316A7BC7917B12 state=present
     tags:
       - redis:install
       - redis
