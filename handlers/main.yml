@@ -1,4 +1,4 @@
-- name: Restart restart redis
+- name: Restart redis
   action: service name=redis-server state=restarted
   notify: Check redis
 
