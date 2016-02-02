@@ -3,5 +3,5 @@
   notify: Check redis
 
 - name: Check redis
-  wait_for: port={{ redis_port }} timeout=10
+  wait_for: host={{ redis_bind  }} port={{ redis_port }} timeout=10
 
