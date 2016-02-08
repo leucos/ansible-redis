@@ -3,5 +3,12 @@
   notify: Check redis
 
 - name: Check redis
-  wait_for: host={{ redis_bind  }} port={{ redis_port }} timeout=10
+  wait_for: host={{ hostvars[inventory_hostname]['ansible_' + redis_bind_interface].ipv4.address }} port={{ redis_port }} timeout=10
+
+- name: Restart sentinel
+  action: service name=redis-sentinel state=restarted
+  notify: Check sentinel
+
+- name: Check sentinel
+  wait_for: host={{ redis_sentinel_bind }} port={{ redis_sentinel_port }} timeout=10
 

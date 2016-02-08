@@ -1,3 +1,5 @@
 - include: redis_install.yml tags=redis,redis:install
 - include: redis_configure.yml tags=redis,redis:config
 
+- include: redis_sentinel.yml tags=redis,redis:redis:sentinel
+  when: redis_sentinel_server_group | default(false)

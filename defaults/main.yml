@@ -1,11 +1,75 @@
+# Which address we bind to
+redis_bind_interface: all
+
+# Do we daemonize
 redis_daemonize: "yes"
-redis_bind: 0.0.0.0
-redis_port: 6379
+
+# How many databases do we use
 redis_databases: 16
+
+# Where do we dump the RDB file
+redis_dbfilename: dump.rdb
+
+# Redis directory
+redis_dir: /var/lib/redis/
+
+# Redis port
+redis_port: 6379
+
+# Do we compress RDBs ?
+redis_rdbcompression: "yes"
+
+# RDB save parameters
 redis_save:
   - 600 1
   - 120 10
   - 60 10000
-redis_rdbcompression: "yes"
-redis_dbfilename: dump.rdb
-redis_dir: /var/lib/redis/
+
+# Address to bind sentinel to
+redis_sentinel_bind: 0.0.0.0
+
+# First server which acts as master
+redis_sentinel_default_master: false
+
+# The port that this sentinel instance will run on
+redis_sentinel_port: 26379
+
+# Group name for redis servers so quorum can be computed
+# If set to false, sebntinel won't be deployed
+redis_sentinel_server_group: false
+
+# Master timeout value in ms
+# Number of milliseconds the master (or any attached slave or sentinel) should
+# be unreachable (as in, not acceptable reply to PING, continuously, for the
+# specified period) in order to consider it in S_DOWN state (Subjectively
+# Down).
+redis_sentinel_down_after_milliseconds: 30000
+
+# Specifies the failover timeout in milliseconds. It is used in many ways:
+#
+# - The time needed to re-start a failover after a previous failover was
+#   already tried against the same master by a given Sentinel, is two
+#   times the failover timeout.
+#
+# - The time needed for a slave replicating to a wrong master according
+#   to a Sentinel current configuration, to be forced to replicate
+#   with the right master, is exactly the failover timeout (counting since
+#   the moment a Sentinel detected the misconfiguration).
+#
+# - The time needed to cancel a failover that is already in progress but
+#   did not produced any configuration change (SLAVEOF NO ONE yet not
+#   acknowledged by the promoted slave).
+#
+# - The maximum time a failover in progress waits for all the slaves to be
+#   reconfigured as slaves of the new master. However even after this time
+#   the slaves will be reconfigured by the Sentinels anyway, but not with
+#   the exact parallel-syncs progression as specified.
+#
+# Default is 3 minutes.redis_sentinel_down_after_milliseconds: 5000
+redis_sentinel_failover_timeout: 180000
+
+# How many slaves we can reconfigure to point to the new master simultaneously
+# during the failover. Use a low number if you use the slaves to serve query
+# to avoid that all the slaves will be unreachable at about the same
+# time while performing the synchronization with the master.
+redis_sentinel_parallel_syncs: 1
