@@ -1,5 +1,5 @@
 daemonize yes
-logfile /var/log/redis/sentinel.log
+logfile "/var/log/redis/sentinel.log"
 
 # Address to bind to
 bind {{ redis_sentinel_bind }}
@@ -8,7 +8,7 @@ bind {{ redis_sentinel_bind }}
 # The port that this sentinel instance will run on
 port {{ redis_sentinel_port }}
 
-pidfile /var/run/redis/redis-sentinel.pid
+pidfile "/var/run/redis/redis-sentinel.pid"
 
 # sentinel announce-ip <ip>
 # sentinel announce-port <port>
@@ -37,7 +37,7 @@ pidfile /var/run/redis/redis-sentinel.pid
 # For Redis Sentinel to chdir to /tmp at startup is the simplest thing
 # for the process to don't interfere with administrative tasks such as
 # unmounting filesystems.
-dir /tmp
+dir "/tmp"
 
 # sentinel monitor <master-name> <ip> <redis-port> <quorum>
 #
