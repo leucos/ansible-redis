@@ -60,7 +60,7 @@ dir /tmp
 {# calculate quorum size #}
 {% set _sentinel_quorum = groups[redis_sentinel_server_group] | length %}
 {% set _sentinel_quorum = 1 + _sentinel_quorum / 2 %}
-{% set _sentinel_quorum = _sentinel_quorum | round(0,'floor') %}
+{% set _sentinel_quorum = _sentinel_quorum | round(0,'floor') | int %}
 
 sentinel monitor {{ redis_sentinel_default_master }} {{ hostvars[redis_sentinel_default_master]['ansible_' + redis_bind_interface].ipv4.address }} {{ hostvars[redis_sentinel_default_master]['redis_port'] | default(6379) }} {{ _sentinel_quorum }}
 
@@ -189,3 +189,4 @@ sentinel failover-timeout {{ redis_sentinel_default_master }} {{ redis_sentinel_
 # Example:
 #
 # sentinel client-reconfig-script mymaster /var/redis/reconfig.sh
+{{ __redis_sentinel_trailer.stdout }}
