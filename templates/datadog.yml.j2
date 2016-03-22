@@ -1,0 +1,17 @@
+############################################
+#  Ansible Managed                         #
+#  ansible-redis/templates/datadog.yml.j2  #
+############################################
+
+init_config:
+
+instances:
+{% if redis_bind_interface == "all" %}
+  - host: 127.0.0.1
+{% else %}
+  - host: {{ hostvars[inventory_hostname]['ansible_' + redis_bind_interface].ipv4.address }}
+{% endif %}
+    port: {{ redis_port }}
+    tags:
+      - redis
+

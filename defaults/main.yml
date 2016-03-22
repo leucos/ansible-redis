@@ -7,17 +7,21 @@ redis_daemonize: "yes"
 # How many databases do we use
 redis_databases: 16
 
-# Where do we dump the RDB file
-redis_dbfilename: dump.rdb
-
 # Redis directory
 redis_dir: /var/lib/redis/
 
 # Redis port
 redis_port: 6379
 
+redis_rdb_backup_keep: 0
+redis_rdb_backup_destination: /var/backups/redis
+redis_rdb_backup_s3bucket: false
+
 # Do we compress RDBs ?
-redis_rdbcompression: "yes"
+redis_rdb_compression: "yes"
+
+# Where do we dump the RDB file
+redis_rdb_filename: dump.rdb
 
 # RDB save parameters
 redis_save:

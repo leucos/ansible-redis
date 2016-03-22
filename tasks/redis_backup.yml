@@ -1,0 +1,26 @@
+##
+# Redis RDB backup
+#
+#  
+- name: Installs backup script
+  template:
+    src: "../templates/redis_rdb_backup.sh.j2"
+    dest: /usr/local/bin/redis_rdb_backup
+    mode: 0700
+
+- name: Ensures backup destination exists
+  file:
+    path: "{{ redis_rdb_backup_destination }}"
+    state: directory
+    mode: 0700
+    owner: root
+
+- name: Adds backup crontab entry
+  cron:
+    name: Backups Redis RDB
+    job: /usr/local/bin/redis_rdb_backup > /dev/null 2>&1 /dev/null
+    user: root
+    day: "{{ redis_rdb_backup_cron_day }}"
+    hour: "{{ redis_rdb_backup_cron_hour }}"
+    minute: "{{ redis_rdb_backup_cron_minute }}"
+

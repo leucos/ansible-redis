@@ -1,0 +1,7 @@
+- name: Deploys datadog integration
+  template:
+    src: datadog.yml.j2
+    dest: /etc/dd-agent/conf.d/redisdb.yaml
+  when: datadog_api_key is defined and datadog_api_key
+  notify: Restart datadog-agent
+
