@@ -7,6 +7,9 @@ redis_daemonize: "yes"
 # How many databases do we use
 redis_databases: 16
 
+# Whether we want to monitor some keys with datadog
+redis_datadog_monitor_keys: false
+
 # Redis directory
 redis_dir: /var/lib/redis/
 

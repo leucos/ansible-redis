@@ -12,6 +12,12 @@ instances:
   - host: {{ hostvars[inventory_hostname]['ansible_' + redis_bind_interface].ipv4.address }}
 {% endif %}
     port: {{ redis_port }}
+{% if redis_datadog_monitor_keys %}
+    keys:
+{%   for k in redis_datadog_monitor_keys %}
+      - {{ k }}
+{%   endfor %}
+{% endif %}
     tags:
       - redis
 

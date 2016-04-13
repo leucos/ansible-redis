@@ -4,7 +4,7 @@
 - include: redis_sentinel.yml tags=redis,redis:redis:sentinel
   when: redis_sentinel_server_group | default(false)
 
-- include: redis_datadog.yml tags=redis,redis:redis:sentinel,datadog
+- include: redis_datadog.yml tags=redis,redis:redis:sentinel,datadog,redis:datadog
   when: datadog_enabled | default(false)
 
 - include: redis_backup.yml tags=redis,redis:redis:sentinel,datadog,backup
