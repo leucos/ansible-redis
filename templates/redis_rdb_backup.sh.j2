@@ -1,7 +1,9 @@
 #!/bin/bash
 
+#
 # Redis RDB backup
 # 
+# Sends backup to S3 (redis_rdb_backup_s3bucket) or gcloud (redis_rdb_backup_gcloudbucket)
 #
 
 # How many backups to keep
@@ -10,17 +12,37 @@ DEST="{{ redis_rdb_backup_destination }}"
 RDB="{{ redis_dir }}/{{ redis_rdb_filename }}"
 DATE=$(date +%Y%m%d_%H%M%S)
 
-cp $RDB $DEST/{{ redis_rdb_filename }}-$DATE
+LOGFILE={{ redis_rdb_backup_logfile }}
 
-# remove older rdb backups
-COUNT=$(( `ls  $DEST/{{ redis_rdb_filename }}-* | wc -l` - $KEEP ))
+function log() {
+  echo -e $(date +"%Y%m%d_%H%M") $1 >> ${LOGFILE}
+}
+
+# Copy
+log "\n=====================================\nbackup started"
+log "copying dump to ${BACKUPDIR}"
+cp -f ${RDB} ${DEST}/{{ redis_rdb_filename }}
+
+## Gzip
+log "gzipping dump ${DEST}/{{ redis_rdb_filename }}"
+gzip -c ${DEST}/{{ redis_rdb_filename }} > ${DEST}/dump-${DATE}.rdb.gz
+rm ${DEST}/{{ redis_rdb_filename }}
+
+## Purge
+log "purging old dumps in ${DEST}"
+COUNT=$(( `ls  $DEST/dump-*.rdb.gz | wc -l` - $KEEP ))
 if [ $COUNT -gt 0 ]; then
-  [[ $1 == '-v' ]] && echo "Erasing $COUNT old backups (rdb) for {{ redis_dbfilename }}"
-  for i in `ls $DEST/{{ redis_rdb_filename }}-* | head -$COUNT`; do
+  [[ $1 == '-v' ]] && echo "Erasing $COUNT old backups (rdb) in ${DEST}"
+  for i in `ls $DEST/dump-*.rdb.gz | head -$COUNT`; do
     rm $i
   done
 fi
 
+## Cloud sync
 {% if redis_rdb_backup_s3bucket %}
-s3cmd sync --delete-removed {{ redis_rdb_backup_destination }}/  s3://{{ redis_rdb_backup_s3bucket }}/
+s3cmd sync --delete-removed ${DEST}/  s3://{{ redis_rdb_backup_s3bucket }}/$(hostname)/ >> ${LOGFILE}
+{% endif %}
+
+{% if redis_rdb_backup_gcloudbucket %}
+gsutil -m rsync -r ${DEST} gs://{{ redis_rdb_backup_gcloudbucket }}/$(hostname)/ >> ${LOGFILE}
 {% endif %}

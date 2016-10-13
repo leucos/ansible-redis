@@ -19,6 +19,8 @@ redis_port: 6379
 redis_rdb_backup_keep: 0
 redis_rdb_backup_destination: /var/backups/redis
 redis_rdb_backup_s3bucket: false
+redis_rdb_backup_gcloudbucket: false
+redis_rdb_backup_logfile: /var/log/redis-backup.log
 
 # Do we compress RDBs ?
 redis_rdb_compression: "yes"
