@@ -22,5 +22,7 @@ dependencies:
     when: datadog_api_key | default(false)
   - role: ansible-s3cmd
     src: https://github.com/leucos/ansible-s3cmd.git
-    when: 'redis_rdb_backup_keep > 0'
-
+    when: 'redis_rdb_backup_s3bucket > 0'
+  - role: ansible-gcloud
+    src: https://github.com/leucos/ansible-gcloud.git
+    when: 'redis_rdb_backup_gcloudbucket > 0'
