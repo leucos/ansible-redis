@@ -18,7 +18,7 @@
 - name: Adds backup crontab entry
   cron:
     name: Backups Redis RDB
-    job: /usr/local/bin/redis_rdb_backup > /dev/null 2>&1 /dev/null
+    job: /usr/local/bin/redis_rdb_backup > /dev/null
     user: root
     day: "{{ redis_rdb_backup_cron_day }}"
     hour: "{{ redis_rdb_backup_cron_hour }}"

@@ -16,7 +16,7 @@ redis_dir: /var/lib/redis/
 # Redis port
 redis_port: 6379
 
-redis_rdb_backup_keep: 0
+redis_rdb_backup_keep: 10
 redis_rdb_backup_destination: /var/backups/redis
 redis_rdb_backup_s3bucket: false
 redis_rdb_backup_gcloudbucket: false

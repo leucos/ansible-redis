@@ -20,7 +20,7 @@ function log() {
 
 # Copy
 log "\n=====================================\nbackup started"
-log "copying dump to ${BACKUPDIR}"
+log "copying dump to ${DEST}"
 cp -f ${RDB} ${DEST}/{{ redis_rdb_filename }}
 
 ## Gzip
@@ -45,6 +45,19 @@ s3cmd sync --delete-removed ${DEST}/  s3://{{ redis_rdb_backup_s3bucket }}/$(hos
 
 {% if redis_rdb_backup_gcloudbucket %}
 gsutil -m rsync -r ${DEST} gs://{{ redis_rdb_backup_gcloudbucket }}/$(hostname)/ >> ${LOGFILE}
+{% endif %}
+
+# ftp sync
+{% if redis_rdb_backup_ftp_host %}
+if lftp -c "set ftp:list-options -a;
+open ftp://{{redis_rdb_backup_ftp_user}}:{{redis_rdb_backup_ftp_pass}}@{{redis_rdb_backup_ftp_host}}; 
+lcd ${DEST};
+cd /;
+mirror --reverse --delete --use-cache --verbose --allow-chown  --allow-suid --no-umask --parallel=2 --exclude .ftpquota"; then
+  log "FTP backup successful"
+else
+  log "Unable to create ftp backup"
+fi
 {% endif %}
 
 log "done"
