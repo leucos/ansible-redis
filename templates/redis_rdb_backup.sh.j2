@@ -44,7 +44,7 @@ s3cmd sync --delete-removed ${DEST}/  s3://{{ redis_rdb_backup_s3bucket }}/$(hos
 {% endif %}
 
 {% if redis_rdb_backup_gcloudbucket %}
-gsutil -m rsync -r ${DEST} gs://{{ redis_rdb_backup_gcloudbucket }}/$(hostname)/ >> ${LOGFILE}
+gsutil -q -m rsync -r ${DEST} gs://{{ redis_rdb_backup_gcloudbucket }}/$(hostname)/ >> ${LOGFILE}
 {% endif %}
 
 # ftp sync
