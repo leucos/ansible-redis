@@ -23,4 +23,4 @@
     day: "{{ redis_rdb_backup_cron_day }}"
     hour: "{{ redis_rdb_backup_cron_hour }}"
     minute: "{{ redis_rdb_backup_cron_minute }}"
-
+  tags: cron
