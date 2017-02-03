@@ -1,0 +1,6 @@
+- name: Checking that required variables are set
+  fail: msg="{{ item }} is not defined and must be"
+  when: not {{ item }}
+  with_items:
+    - redis_rdb_backup_cron_hour
+

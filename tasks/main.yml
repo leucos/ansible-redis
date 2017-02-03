@@ -1,3 +1,5 @@
+- include: check_vars.yml tags=redis,redis:check,check
+
 - include: redis_install.yml tags=redis,redis:install
 - include: redis_configure.yml tags=redis,redis:config
 
