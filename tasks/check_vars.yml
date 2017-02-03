@@ -1,6 +1,6 @@
 - name: Checking that required variables are set
   fail: msg="redis_rdb_backup_cron_hour must be set when redis_backup_keep is > 0"
-  when: not redis_rdb_backup_cron_hour and redis_backup_keep > 0
+  when: not redis_rdb_backup_cron_hour and redis_rdb_backup_keep > 0
   with_items:
     - redis_rdb_backup_cron_hour
 
