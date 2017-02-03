@@ -39,16 +39,16 @@ if [ $COUNT -gt 0 ]; then
 fi
 
 ## Cloud sync
-{% if redis_rdb_backup_s3bucket %}
+{% if redis_rdb_backup_s3bucket is defined and redis_rdb_backup_s3bucket %}
 s3cmd sync --delete-removed ${DEST}/  s3://{{ redis_rdb_backup_s3bucket }}/$(hostname)/ >> ${LOGFILE}
 {% endif %}
 
-{% if redis_rdb_backup_gcloudbucket %}
+{% if redis_rdb_backup_gcloudbucket is defined and redis_rdb_backup_gcloudbucket %}
 gsutil -q -m rsync -r ${DEST} gs://{{ redis_rdb_backup_gcloudbucket }}/$(hostname)/ >> ${LOGFILE}
 {% endif %}
 
 # ftp sync
-{% if redis_rdb_backup_ftp_host %}
+{% if redis_rdb_backup_ftp_host is defined and redis_rdb_backup_ftp_host %}
 if lftp -c "set ftp:list-options -a;
 open ftp://{{redis_rdb_backup_ftp_user}}:{{redis_rdb_backup_ftp_pass}}@{{redis_rdb_backup_ftp_host}}; 
 lcd ${DEST};
