@@ -13,6 +13,9 @@ redis_datadog_monitor_keys: false
 # Redis directory
 redis_dir: /var/lib/redis/
 
+# PID file
+redis_pidfile: /var/run/redis/redis-server.pid
+
 # Redis port
 redis_port: 6379
 
