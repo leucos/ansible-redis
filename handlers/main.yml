@@ -1,9 +1,21 @@
 - name: Restart redis
   action: service name=redis-server state=restarted
-  notify: Check redis
+  notify:
+    - Find default Redis interface
+    - Find explicit Redis interface
+    - Check redis
+
+- name: Find default Redis interface
+  set_fact:
+    __redis_listen_ip: "{{ ansible_default_ipv4.address }}"
+
+- name: Find explicit Redis interface
+  set_fact:
+    __redis_listen_ip: "{{ hostvars[inventory_hostname]['ansible_' + redis_bind_interface].ipv4.address }}"
+  when: 'redis_bind_interface != "all"'
 
 - name: Check redis
-  wait_for: host={{ hostvars[inventory_hostname]['ansible_' + redis_bind_interface].ipv4.address }} port={{ redis_port }} timeout=10
+  wait_for: host={{ __redis_listen_ip }} port={{ redis_port }} timeout=10
 
 - name: Restart sentinel
   action: service name=redis-sentinel state=restarted
