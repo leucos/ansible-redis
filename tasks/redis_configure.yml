@@ -4,6 +4,7 @@
     value: 1
     sysctl_file: /etc/sysctl.d/60-redis.conf
     reload: yes
+    ignoreerrors: true
   with_items:
     - vm.overcommit_memory
     - vm.nr_hugepages
